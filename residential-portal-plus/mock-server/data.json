@@ -1,0 +1,14 @@
+{
+  "stats": { "properties": 5, "tenants": 22, "tickets": 4, "recent": ["Tenant A paid rent","Maintenance requested at 14B","New lease signed 9C"] },
+  "properties": [
+    {"id":"P-100","address":"14 Baker St","city":"Springfield","units":10},
+    {"id":"P-200","address":"2 Elm Ave","city":"Riverton","units":6},
+    {"id":"P-300","address":"9 Oak Rd","city":"Greendale","units":4},
+    {"id":"P-400","address":"21 Pine St","city":"Lakeside","units":8},
+    {"id":"P-500","address":"3 Maple Blvd","city":"Brookfield","units":12}
+  ],
+  "tenants": [
+    {"id":"T-1","name":"Alice", "unit":"14-1","phone":"555-1001"},
+    {"id":"T-2","name":"Bob", "unit":"14-2","phone":"555-1002"}
+  ]
+}

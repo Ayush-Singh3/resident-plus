@@ -1,0 +1,14 @@
+{
+  "name": "sample-taggingai-root",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "residential-portal-plus"
+  ],
+  "scripts": {
+    "start": "npm run start:app",
+    "install:all": "npm install --prefix residential-portal-plus",
+    "start:app": "npm --prefix residential-portal-plus start",
+    "mock-server": "npm --prefix residential-portal-plus run mock-server"
+  }
+}
