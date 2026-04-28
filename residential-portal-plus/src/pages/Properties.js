@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import api from '../utils/api';
+import React, { useCallback, useState } from 'react';
+import ErrorNotice from '../components/ErrorNotice';
+import PageHeader from '../components/PageHeader';
+import useApiQuery from '../hooks/useApiQuery';
+import { deleteProperty, getProperties } from '../services/propertyService';
 
 function PropertyRow({p, onDelete}){
   return (
@@ -14,12 +17,29 @@ function PropertyRow({p, onDelete}){
 }
 
 export default function Properties(){
-  const [list, setList] = useState([]);
-  useEffect(()=>{ let mounted=true; api.get('/properties').then(r=>{ if(mounted) setList(r); }); return ()=> mounted=false }, []);
-  const del = async (id)=>{ await api.post('/properties/delete',{id}); setList(l=>l.filter(x=>x.id!==id)); };
+  const fetchProperties = useCallback(() => getProperties(), []);
+  const { data: list, setData: setList, error, refetch } = useApiQuery(fetchProperties, []);
+  const [actionError, setActionError] = useState('');
+
+  const del = async (id) => {
+    setActionError('');
+
+    try {
+      await deleteProperty(id);
+      setList((currentList) => currentList.filter((property) => property.id !== id));
+    } catch (deleteError) {
+      setActionError(deleteError.message || 'Unable to delete this property right now.');
+    }
+  };
+
   return (
     <div>
-      <h2>Properties</h2>
+      <PageHeader
+        title="Properties"
+        description="Manage addresses, units, and portfolio inventory with consistent request handling."
+        action={<button type="button" className="btn" onClick={refetch}>Reload list</button>}
+      />
+      <ErrorNotice message={actionError || error} compact />
       <div className="card" style={{marginTop:8}}>
         <table className="table"><thead><tr><th>ID</th><th>Address</th><th>City</th><th>Units</th><th></th></tr></thead>
         <tbody>
