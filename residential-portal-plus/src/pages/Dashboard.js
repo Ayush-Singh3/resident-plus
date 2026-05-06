@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import api from '../utils/api';
+import React from 'react';
+import EmptyState from '../components/EmptyState';
+import ErrorState from '../components/ErrorState';
+import useDashboardStats from '../hooks/useDashboardStats';
 
 export default function Dashboard(){
-  const [stats, setStats] = useState(null);
-  useEffect(()=>{ let mounted=true; api.get('/stats').then(r=>{ if(mounted) setStats(r); }).catch(()=>{}); return ()=> mounted=false }, []);
+  const { data: stats, error, isLoading, retry } = useDashboardStats();
+
+  if (error) {
+    return <ErrorState message={error.message} onRetry={() => retry().catch(() => {})} />;
+  }
+
   return (
     <div>
       <h2>Dashboard</h2>
@@ -15,7 +21,16 @@ export default function Dashboard(){
 
       <h3 style={{marginTop:12}}>Recent Activity</h3>
       <div className="card" style={{marginTop:8}}>
-        <pre style={{whiteSpace:'pre-wrap'}}>{JSON.stringify(stats?.recent || [], null, 2)}</pre>
+        {isLoading && !stats ? (
+          <div className="small">Loading dashboard metrics...</div>
+        ) : stats?.recent?.length ? (
+          <pre style={{whiteSpace:'pre-wrap'}}>{JSON.stringify(stats.recent, null, 2)}</pre>
+        ) : (
+          <EmptyState
+            title="No recent activity"
+            message="Recent lease, payment, and maintenance updates will appear here."
+          />
+        )}
       </div>
     </div>
   );

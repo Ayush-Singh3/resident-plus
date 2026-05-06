@@ -4,10 +4,12 @@ import Dashboard from './pages/Dashboard';
 import Properties from './pages/Properties';
 import Tenants from './pages/Tenants';
 import Settings from './pages/Settings';
+import LoadingIndicator from './components/LoadingIndicator';
 
 export default function App(){
   return (
     <div className="app-shell">
+      <LoadingIndicator />
       <nav className="nav">
         <Link to="/">Dashboard</Link>
         <Link to="/properties">Properties</Link>
