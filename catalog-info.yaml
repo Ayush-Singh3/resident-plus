@@ -1,12 +1,16 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: resident-plus
-  description: A software component for managing residential services and operations efficiently.
+  name: resident-plus-frontend
+  description: Frontend application for Resident Plus.
   annotations:
     github.com/project-slug: Ayush-Singh3/resident-plus
+    devx/repo-role: frontend
+    devx/repo-tags: react,typescript,frontend
     jira/project-key: SCRUM
-    jira/label: backstage-component:resident-plus
+    jira/label: backstage-component-resident-plus-frontend
+    jira/ticket-label: devx-ticket-SCRUM-1
+    jira/tickets: SCRUM-1
 spec:
   type: application
   owner: ICS
